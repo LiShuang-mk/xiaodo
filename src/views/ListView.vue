@@ -3,7 +3,7 @@
         <el-container class="lsv-container">
             
             <el-container>
-                <el-aside width="200px" class="lsv-aside">
+                <el-aside width="250px" class="lsv-aside">
                     <ListMenuComponent />
                 </el-aside>
                 <el-main class="lsv-main">

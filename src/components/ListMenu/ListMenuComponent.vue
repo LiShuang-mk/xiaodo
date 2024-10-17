@@ -1,18 +1,38 @@
 <template>
     <el-collapse class="lsv-clp-menu" v-model="activeNames">
         <el-collapse-item class="lsv-clp-item" title="清单列表" name="clp-list">
-            <ListButtonItemComponent class="clp-list-btn">清单1</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">清单2</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">清单3</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">清单4</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">清单5</ListButtonItemComponent>
+            <ListButtonItemComponent :is-first="item.isFirst" class="clp-list-btn" v-for="item in ListItemsVec"
+                @commit-create-list="handleCommitCreateList">
+                <template #title>{{ item.title }}</template>
+            </ListButtonItemComponent>
+            <ListButtonItemComponent :hidden="isCreatingList" :is-first=false class="clp-list-btn" @click="addList"
+                @commit-create-list="handleCommitCreateList">
+                <template #icon>
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </template>
+                <template #title>
+                    新增清单
+                </template>
+            </ListButtonItemComponent>
         </el-collapse-item>
         <el-collapse-item class="lsv-clp-item" title="标签列表" name="clp-tag">
-            <ListButtonItemComponent class="clp-list-btn">标签1</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">标签2</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">标签3</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">标签4</ListButtonItemComponent>
-            <ListButtonItemComponent class="clp-list-btn">标签5</ListButtonItemComponent>
+            <ListButtonItemComponent :is-first="item.isFirst" class="clp-list-btn" v-for="item in LabelItemsVec"
+                @commit-create-list="handleCommitCreateList">
+                <template #title>{{ item.title }}</template>
+            </ListButtonItemComponent>
+            <ListButtonItemComponent :is-first=false class="clp-list-btn" @click="addTitle"
+                @commit-create-list="handleCommitCreateList">
+                <template #icon>
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </template>
+                <template #title>
+                    新增标签
+                </template>
+            </ListButtonItemComponent>
         </el-collapse-item>
         <el-collapse-item class="lsv-clp-item" title="？？？" name="clp-other">
             ？？？
@@ -21,11 +41,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { List, Tickets } from '@element-plus/icons-vue';
+import { ref, reactive } from 'vue';
+import { Plus } from '@element-plus/icons-vue'
 import ListButtonItemComponent from './ListButtonItemComponent.vue';
 
 const activeNames = ref(['clp-list']);
+const isCreatingList = ref(false);
+
+const ListItemsVec = reactive([{ title: "清单1", isFirst: true }])
+const LabelItemsVec = reactive([{ title: "标签1", isFirst: false }])
+
+function addList() {
+    console.log("add list");
+}
+
+function addTitle() {
+    console.log("add title");
+}
+
+function handleCommitCreateList(listName) {
+    console.log("commit create list", listName);
+}
 
 </script>
 
